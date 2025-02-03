@@ -1,1 +1,3 @@
-# hillel-34.1-html-calculator
+# HTML Calculator
+### Homework for Lecture 34
+Basic html calculator with custom style.
