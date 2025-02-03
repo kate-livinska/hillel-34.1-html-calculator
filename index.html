@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Basic Calculator</title>
+        <style>
+            table {
+                margin-left: 150px;
+                margin-top: 150px;
+                background-color: #535c68;
+                border-radius: 12px;
+                padding: 6px;        
+            }
+
+            .input-result {
+                width: 100%;
+                padding: 20px 0px;
+                background-color: #dff9fb;
+                color: #535c68;
+                border-radius: 12px;
+                border: 1px solid #535c68;
+                font-size: 16px;
+                font-weight: bold;
+                text-align: right;
+            }
+
+            .input-solve {
+                width: 100%;
+                padding: 20px 40px;
+                background-color: #7ed6df;
+                color: #535c68;
+                border: none;
+                border-radius: 12px;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            .input-number {
+                width: 100%;
+                padding: 20px 30px;
+                background-color: #95afc0;
+                color: #dff9fb;
+                border-radius: 12px;
+                border: none;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            .input-operator {
+                width: 100%;
+                padding: 20px 30px;
+                background-color: #f6e58d;
+                color: #535c68;
+                border-radius: 12px;
+                border: none;
+                font-size: 16px;
+            }
+
+            .input-clear {
+                width: 100%;
+                padding: 20px 40px;
+                background-color: #f0932b;
+                color: #535c68;
+                padding: 20px;
+                border: none;
+                border-radius: 12px;
+                font-size: 14px;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <table id="calculator">
+            <tr>
+                <td colspan="4"><input type="text" class="input-result" id="result"></td>
+            </tr>
+            <tr>
+                <td><input type="button" class="input-number" value="7"></td> 
+                <td><input type="button" class="input-number" value="8"></td> 
+                <td><input type="button" class="input-number" value="9"></td> 
+                <td><input type="button" class="input-operator" value="/"></td>
+            </tr>
+            <tr> 
+                <td><input type="button" class="input-number" value="4"></td> 
+                <td><input type="button" class="input-number" value="5"></td> 
+                <td><input type="button" class="input-number" value="6"></td> 
+                <td><input type="button" class="input-operator" value="*"></td> 
+            </tr>
+            <tr> 
+                <td><input type="button" class="input-number" value="1"></td> 
+                <td><input type="button" class="input-number" value="2"></td> 
+                <td><input type="button" class="input-number" value="3"></td> 
+                <td><input type="button" class="input-operator" value="+"></td> 
+            </tr>
+            <tr>
+                <td><input type="button" class="input-clear" value="C" onclick="backSpace()"></td>
+                <td><input type="button" class="input-number" value="0"></td> 
+                <td><input type="button" class="input-number" value="."></td>
+                <td><input type="button" class="input-operator" value="-"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="button" class="input-clear" value="AC" onclick="clr()"></td>
+                <td colspan="2"><input type="button" class="input-solve" value="=" onclick="solve()"></td>
+            </tr>
+        </table>
+        <script>
+            var nums = document.getElementsByClassName("input-number");
+            var operators = document.getElementsByClassName("input-operator");
+
+            for (i = 0; i < nums.length; i++) {
+                nums[i].addEventListener("click", 
+                    function() {
+                        dis(this.value);
+                    }
+                );
+                nums[i].addEventListener("keydown", 
+                    function() {
+                        type(event);
+                    });
+            }
+
+            for (i = 0; i < operators.length; i++) {
+                operators[i].addEventListener("click", 
+                    function() {
+                        dis(this.value);
+                    }
+                );
+                operators[i].addEventListener("keydown",
+                    function() {
+                        type(event);
+                    }
+                );
+            }
+
+            function dis(val) {
+                document.getElementById("result").value += val;
+            }
+
+            //Using keyboard keys option
+            function type(event) {
+                if (event.key == '0' || event.key == '1' 
+                || event.key == '2' || event.key == '3' 
+                || event.key == '4' || event.key == '5' 
+                || event.key == '6' || event.key == '7' 
+                || event.key == '8' || event.key == '9' 
+                || event.key == '+' || event.key == '-' 
+                || event.key == '*' || event.key == '/') 
+                document.getElementById("result").value += event.key;
+            }
+
+            var calc = document.getElementById("calculator");
+            calc.onkeydown = function (event) {
+                if (event.keyCode === 13) { 
+                    console.log("Enter"); 
+                    let x = document.getElementById("result").value 
+                    console.log(x); 
+                    solve(); 
+                }
+                if (event.keyCode === 8) {
+                    console.log("Backspace");
+                    backSpace();
+                }
+            }
+
+            function solve() {
+                let x = document.getElementById("result").value;
+                try {
+                    let res = eval(x);
+                    if (res == Number.POSITIVE_INFINITY || res == Number.NEGATIVE_INFINITY) {
+                        document.getElementById("result").value = "Error";
+                    } else {
+                        document.getElementById("result").value = res;
+                    }
+                } catch (error) {
+                    document.getElementById("result").value = "Error"
+                }
+                
+            }
+
+            function clr() {
+                document.getElementById("result").value = ""
+            }
+
+            function backSpace() {
+                const str = document.getElementById("result").value;
+                if (str == "Error") {
+                    clr();
+                } else {
+                    document.getElementById("result").value = str.slice(0, -1);
+                }
+            }
+        </script>
+    </body>
+</html>
